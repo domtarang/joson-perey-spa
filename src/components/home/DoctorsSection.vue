@@ -37,7 +37,7 @@ const doctors: DoctorItem[] = [
   {
     name: 'Dr. Divina P. Joson',
     description:
-      'Dr. Divina P. Joson is an experienced dentist with a passion for oral health. She has been serving patients for over 10 years and is known for her gentle approach and dedication to patient care.',
+      'Dr. Divina P. Joson is an experienced dentist with a passion for oral health. She has been serving patients for over 45 years and is known for her gentle approach and dedication to patient care.',
     image: divinaPhoto,
   },
   {
