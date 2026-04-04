@@ -30,9 +30,7 @@
       >
         <div class="modal-header">
           <h2 id="loginModalTitle">Login</h2>
-          <button class="modal-close" type="button" aria-label="Close login modal" @click="closeModal">
-            &times;
-          </button>
+          <button class="modal-close" type="button" aria-label="Close login modal" @click="closeModal"></button>
         </div>
         <div class="modal-body">
           <p class="modal-copy">
@@ -100,9 +98,7 @@
       >
         <div class="modal-header">
           <h2 id="forgotModalTitle">Forgot Password</h2>
-          <button class="modal-close" type="button" aria-label="Close forgot password modal" @click="closeModal">
-            &times;
-          </button>
+          <button class="modal-close" type="button" aria-label="Close login modal" @click="closeModal"></button>
         </div>
         <div class="modal-body">
           <p class="modal-copy">Enter your email to begin your password recovery process.</p>
@@ -136,9 +132,7 @@
       >
         <div class="modal-header">
           <h2 id="registerModalTitle">Register</h2>
-          <button class="modal-close" type="button" aria-label="Close registration modal" @click="closeModal">
-            &times;
-          </button>
+          <button class="modal-close" type="button" aria-label="Close login modal" @click="closeModal"></button>
         </div>
         <div class="modal-body">
           <p class="modal-copy">
