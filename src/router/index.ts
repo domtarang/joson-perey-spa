@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '@/views/HomeView.vue'
 import AdminPortalView from '@/views/AdminPortalView.vue'
 
 const router = createRouter({
@@ -12,7 +12,7 @@ const router = createRouter({
     },
     {
       path: '/admin',
-      name: 'admin portal',
+      name: 'AdminPortalView',
       component: AdminPortalView,
     },
   ],

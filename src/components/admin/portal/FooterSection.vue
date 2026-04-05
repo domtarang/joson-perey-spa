@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
   <footer class="admin-footer">
     <div class="container">
@@ -5,8 +7,6 @@
     </div>
   </footer>
 </template>
-
-<script setup lang="ts"></script>
 
 <style scoped>
 .admin-footer {

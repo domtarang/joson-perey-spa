@@ -1,29 +1,3 @@
-<template>
-  <section id="services" class="services section-shell">
-    <div class="container">
-      <div class="section-title">
-        <h2>Our Services</h2>
-        <div class="title-line"></div>
-      </div>
-      <p class="section-intro">
-        Welcome to our services section. We offer a wide range of services to meet your needs.
-        Our team is dedicated to providing high-quality solutions to our clients. Explore our
-        services below to learn more about what we can offer you.
-      </p>
-
-      <div class="services-grid">
-        <article v-for="service in services" :key="service.title" class="service-card">
-          <img :src="service.image" :alt="service.title" />
-          <div class="service-body">
-            <h3>{{ service.title }}</h3>
-            <p>{{ service.description }}</p>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-</template>
-
 <script setup lang="ts">
 import oralProphylaxis from '@/assets/images/services/oral-prophylaxis.webp'
 import extraction from '@/assets/images/services/extraction.webp'
@@ -92,6 +66,32 @@ const services: ServiceItem[] = [
   },
 ]
 </script>
+
+<template>
+  <section id="services" class="services section-shell">
+    <div class="container">
+      <div class="section-title">
+        <h2>Our Services</h2>
+        <div class="title-line"></div>
+      </div>
+      <p class="section-intro">
+        Welcome to our services section. We offer a wide range of services to meet your needs.
+        Our team is dedicated to providing high-quality solutions to our clients. Explore our
+        services below to learn more about what we can offer you.
+      </p>
+
+      <div class="services-grid">
+        <article v-for="service in services" :key="service.title" class="service-card">
+          <img :src="service.image" :alt="service.title" />
+          <div class="service-body">
+            <h3>{{ service.title }}</h3>
+            <p>{{ service.description }}</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</template>
 
 <style scoped>
 .section-shell {

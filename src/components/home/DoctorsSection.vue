@@ -1,28 +1,3 @@
-<template>
-  <section id="doctors" class="doctors section-shell">
-    <div class="container">
-      <div class="section-title">
-        <h2>Our Doctors</h2>
-        <div class="title-line"></div>
-      </div>
-      <p class="section-intro">
-        Our Dental Clinic is committed to providing the best dental services. We have a team of
-        experienced and caring professionals to take care of your dental needs.
-      </p>
-
-      <div class="doctors-grid">
-        <article v-for="doctor in doctors" :key="doctor.name" class="doctor-card">
-          <div class="doctor-photo">
-            <img :src="doctor.image" :alt="doctor.name" />
-          </div>
-          <h3>{{ doctor.name }}</h3>
-          <p>{{ doctor.description }}</p>
-        </article>
-      </div>
-    </div>
-  </section>
-</template>
-
 <script setup lang="ts">
 import divinaPhoto from '@/assets/images/doctors/divina.webp'
 import rachellePhoto from '@/assets/images/doctors/rachelle.webp'
@@ -48,6 +23,31 @@ const doctors: DoctorItem[] = [
   },
 ]
 </script>
+
+<template>
+  <section id="doctors" class="doctors section-shell">
+    <div class="container">
+      <div class="section-title">
+        <h2>Our Doctors</h2>
+        <div class="title-line"></div>
+      </div>
+      <p class="section-intro">
+        Our Dental Clinic is committed to providing the best dental services. We have a team of
+        experienced and caring professionals to take care of your dental needs.
+      </p>
+
+      <div class="doctors-grid">
+        <article v-for="doctor in doctors" :key="doctor.name" class="doctor-card">
+          <div class="doctor-photo">
+            <img :src="doctor.image" :alt="doctor.name" />
+          </div>
+          <h3>{{ doctor.name }}</h3>
+          <p>{{ doctor.description }}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</template>
 
 <style scoped>
 .section-shell {
