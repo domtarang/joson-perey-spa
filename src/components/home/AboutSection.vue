@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
   <section id="about" class="about section-shell">
     <div class="container">
@@ -53,8 +55,6 @@
     </div>
   </section>
 </template>
-
-<script setup lang="ts"></script>
 
 <style scoped>
 .section-shell {

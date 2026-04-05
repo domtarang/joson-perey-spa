@@ -1,318 +1,3 @@
-<template>
-  <div id="top">
-    <div class="top-strip">Opening Hours: 8 AM - 5 PM, closed every Wednesday and Sunday</div>
-
-    <HeaderSection @open-modal="openModal" />
-
-    <main>
-      <HeroSection @open-modal="openModal" />
-      <ServicesSection />
-      <DoctorsSection />
-      <AboutSection />
-      <ContactSection />
-    </main>
-
-    <FooterSection />
-
-    <div
-      class="modal-overlay"
-      :class="{ 'is-open': Boolean(activeModal) }"
-      :aria-hidden="!activeModal"
-      @click.self="closeModal"
-    >
-      <section
-        v-if="activeModal === 'login'"
-        ref="loginPanelRef"
-        class="modal-panel"
-        role="dialog"
-        tabindex="-1"
-        aria-labelledby="loginModalTitle"
-      >
-        <div class="modal-header">
-          <h2 id="loginModalTitle">Login</h2>
-          <button class="modal-close" type="button" aria-label="Close login modal" @click="closeModal"></button>
-        </div>
-        <div class="modal-body">
-          <p class="modal-copy">
-            Welcome back. Sign in to manage appointments, review your account details, and stay
-            connected with your dental care.
-          </p>
-          <form class="modal-form" @submit.prevent>
-            <div class="form-group">
-              <label class="form-label" for="loginEmail">Email</label>
-              <input
-                id="loginEmail"
-                v-model="loginForm.email"
-                class="field-control"
-                name="email"
-                type="email"
-                placeholder="Enter your email"
-                autocomplete="email"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="loginPassword">Password</label>
-              <div class="password-field">
-                <input
-                  id="loginPassword"
-                  v-model="loginForm.password"
-                  class="field-control"
-                  name="password"
-                  :type="showLoginPassword ? 'text' : 'password'"
-                  placeholder="Enter your password"
-                  autocomplete="current-password"
-                  required
-                />
-                <button
-                  class="password-toggle"
-                  type="button"
-                  aria-controls="loginPassword"
-                  :aria-label="showLoginPassword ? 'Hide password' : 'Show password'"
-                  :aria-pressed="showLoginPassword"
-                  @click="showLoginPassword = !showLoginPassword"
-                >
-                  {{ showLoginPassword ? 'Hide' : 'Show' }}
-                </button>
-              </div>
-            </div>
-            <div class="modal-link-row">
-              <a class="modal-link" href="#" @click.prevent="openModal('forgot')">Forgot Password?</a>
-            </div>
-            <button class="modal-submit" type="submit">Login</button>
-          </form>
-          <div class="modal-footer-copy">
-            Don't have an account?
-            <a href="#" @click.prevent="openModal('register')">Register</a>
-          </div>
-        </div>
-      </section>
-
-      <section
-        v-if="activeModal === 'forgot'"
-        ref="forgotPanelRef"
-        class="modal-panel"
-        role="dialog"
-        tabindex="-1"
-        aria-labelledby="forgotModalTitle"
-      >
-        <div class="modal-header">
-          <h2 id="forgotModalTitle">Forgot Password</h2>
-          <button class="modal-close" type="button" aria-label="Close login modal" @click="closeModal"></button>
-        </div>
-        <div class="modal-body">
-          <p class="modal-copy">Enter your email to begin your password recovery process.</p>
-          <form class="modal-form" @submit.prevent>
-            <div class="form-group">
-              <label class="form-label" for="forgotEmail">Registered Email</label>
-              <input
-                id="forgotEmail"
-                v-model="forgotForm.email"
-                class="field-control"
-                name="forgot-email"
-                type="email"
-                placeholder="Enter your email"
-                autocomplete="email"
-                required
-              />
-            </div>
-            <button class="modal-submit" type="submit">Send Code</button>
-          </form>
-          <div class="modal-footer-copy"><a href="#" @click.prevent="openModal('login')">Back to login</a></div>
-        </div>
-      </section>
-
-      <section
-        v-if="activeModal === 'register'"
-        ref="registerPanelRef"
-        class="modal-panel modal-wide"
-        role="dialog"
-        tabindex="-1"
-        aria-labelledby="registerModalTitle"
-      >
-        <div class="modal-header">
-          <h2 id="registerModalTitle">Register</h2>
-          <button class="modal-close" type="button" aria-label="Close login modal" @click="closeModal"></button>
-        </div>
-        <div class="modal-body">
-          <p class="modal-copy">
-            Create your patient account to make future bookings easier and keep your contact
-            details ready for the clinic.
-          </p>
-          <form class="modal-form" @submit.prevent>
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label" for="registerFirstName">First Name</label>
-                <input
-                  id="registerFirstName"
-                  v-model="registerForm.firstName"
-                  class="field-control"
-                  name="first-name"
-                  type="text"
-                  placeholder="Enter your first name"
-                  autocomplete="given-name"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="registerLastName">Last Name</label>
-                <input
-                  id="registerLastName"
-                  v-model="registerForm.lastName"
-                  class="field-control"
-                  name="last-name"
-                  type="text"
-                  placeholder="Enter your last name"
-                  autocomplete="family-name"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="registerEmail">Email</label>
-                <input
-                  id="registerEmail"
-                  v-model="registerForm.email"
-                  class="field-control"
-                  name="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  autocomplete="email"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="registerPhone">Phone Number</label>
-                <input
-                  id="registerPhone"
-                  v-model="registerForm.phoneNumber"
-                  class="field-control"
-                  name="phone-number"
-                  type="tel"
-                  placeholder="Enter your phone number"
-                  autocomplete="tel"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="registerDob">Date of Birth</label>
-                <input
-                  id="registerDob"
-                  v-model="registerForm.dateOfBirth"
-                  class="field-control"
-                  name="date-of-birth"
-                  type="date"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="registerGender">Gender</label>
-                <select id="registerGender" v-model="registerForm.gender" class="field-control" required>
-                  <option value="">Select gender</option>
-                  <option value="female">Female</option>
-                  <option value="male">Male</option>
-                  <option value="prefer-not-to-say">Prefer not to say</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="registerProvince">Province</label>
-                <select
-                  id="registerProvince"
-                  v-model="registerForm.provinceCode"
-                  class="field-control"
-                  :disabled="provinceLoading || provinceState.disabled"
-                  required
-                  @focus="onProvinceFocus"
-                  @change="handleProvinceChange"
-                >
-                  <option value="">{{ provinceState.placeholder }}</option>
-                  <option v-for="province in provinces" :key="province.code" :value="province.code">
-                    {{ province.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="registerCity">City / Municipality</label>
-                <select
-                  id="registerCity"
-                  v-model="registerForm.cityCode"
-                  class="field-control"
-                  :disabled="cityState.disabled"
-                  required
-                  @change="handleCityChange"
-                >
-                  <option value="">{{ cityState.placeholder }}</option>
-                  <option v-for="city in cities" :key="city.code" :value="city.code">
-                    {{ city.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="registerBarangay">Barangay</label>
-                <select
-                  id="registerBarangay"
-                  v-model="registerForm.barangayCode"
-                  class="field-control"
-                  :disabled="barangayState.disabled"
-                  required
-                >
-                  <option value="">{{ barangayState.placeholder }}</option>
-                  <option v-for="barangay in barangays" :key="barangay.code" :value="barangay.code">
-                    {{ barangay.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="registerPreferredContact">Preferred Contact Method</label>
-                <select
-                  id="registerPreferredContact"
-                  v-model="registerForm.preferredContactMethod"
-                  class="field-control"
-                  required
-                >
-                  <option value="">Choose one for appointment reminders</option>
-                  <option value="sms">SMS</option>
-                  <option value="email">Email</option>
-                  <option value="do-not-contact">Do Not Contact Me</option>
-                </select>
-              </div>
-              <div class="form-group full">
-                <label class="form-label" for="registerPassword">Password</label>
-                <div class="password-field">
-                  <input
-                    id="registerPassword"
-                    v-model="registerForm.password"
-                    class="field-control"
-                    name="register-password"
-                    :type="showRegisterPassword ? 'text' : 'password'"
-                    placeholder="Create a password"
-                    autocomplete="new-password"
-                    required
-                  />
-                  <button
-                    class="password-toggle"
-                    type="button"
-                    aria-controls="registerPassword"
-                    :aria-label="showRegisterPassword ? 'Hide password' : 'Show password'"
-                    :aria-pressed="showRegisterPassword"
-                    @click="showRegisterPassword = !showRegisterPassword"
-                  >
-                    {{ showRegisterPassword ? 'Hide' : 'Show' }}
-                  </button>
-                </div>
-              </div>
-            </div>
-            <p class="address-feedback">{{ addressFeedback }}</p>
-            <button class="modal-submit" type="submit">Create Account</button>
-          </form>
-          <div class="modal-footer-copy">
-            Already have an account? <a href="#" @click.prevent="openModal('login')">Login</a>
-          </div>
-        </div>
-      </section>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import HeaderSection from '@/components/home/HeaderSection.vue'
@@ -643,6 +328,321 @@ onBeforeUnmount(() => {
   document.body.classList.remove('modal-open')
 })
 </script>
+
+<template>
+  <div id="top">
+    <div class="top-strip">Opening Hours: 8 AM - 5 PM, closed every Wednesday and Sunday</div>
+
+    <HeaderSection @open-modal="openModal" />
+
+    <main>
+      <HeroSection @open-modal="openModal" />
+      <ServicesSection />
+      <DoctorsSection />
+      <AboutSection />
+      <ContactSection />
+    </main>
+
+    <FooterSection />
+
+    <div
+      class="modal-overlay"
+      :class="{ 'is-open': Boolean(activeModal) }"
+      :aria-hidden="!activeModal"
+      @click.self="closeModal"
+    >
+      <section
+        v-if="activeModal === 'login'"
+        ref="loginPanelRef"
+        class="modal-panel"
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="loginModalTitle"
+      >
+        <div class="modal-header">
+          <h2 id="loginModalTitle">Login</h2>
+          <button class="modal-close" type="button" aria-label="Close login modal" @click="closeModal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-copy">
+            Welcome back. Sign in to manage appointments, review your account details, and stay
+            connected with your dental care.
+          </p>
+          <form class="modal-form" @submit.prevent>
+            <div class="form-group">
+              <label class="form-label" for="loginEmail">Email</label>
+              <input
+                id="loginEmail"
+                v-model="loginForm.email"
+                class="field-control"
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="loginPassword">Password</label>
+              <div class="password-field">
+                <input
+                  id="loginPassword"
+                  v-model="loginForm.password"
+                  class="field-control"
+                  name="password"
+                  :type="showLoginPassword ? 'text' : 'password'"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+                  required
+                />
+                <button
+                  class="password-toggle"
+                  type="button"
+                  aria-controls="loginPassword"
+                  :aria-label="showLoginPassword ? 'Hide password' : 'Show password'"
+                  :aria-pressed="showLoginPassword"
+                  @click="showLoginPassword = !showLoginPassword"
+                >
+                  {{ showLoginPassword ? 'Hide' : 'Show' }}
+                </button>
+              </div>
+            </div>
+            <div class="modal-link-row">
+              <a class="modal-link" href="#" @click.prevent="openModal('forgot')">Forgot Password?</a>
+            </div>
+            <button class="modal-submit" type="submit">Login</button>
+          </form>
+          <div class="modal-footer-copy">
+            Don't have an account?
+            <a href="#" @click.prevent="openModal('register')">Register</a>
+          </div>
+        </div>
+      </section>
+
+      <section
+        v-if="activeModal === 'forgot'"
+        ref="forgotPanelRef"
+        class="modal-panel"
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="forgotModalTitle"
+      >
+        <div class="modal-header">
+          <h2 id="forgotModalTitle">Forgot Password</h2>
+          <button class="modal-close" type="button" aria-label="Close login modal" @click="closeModal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-copy">Enter your email to begin your password recovery process.</p>
+          <form class="modal-form" @submit.prevent>
+            <div class="form-group">
+              <label class="form-label" for="forgotEmail">Registered Email</label>
+              <input
+                id="forgotEmail"
+                v-model="forgotForm.email"
+                class="field-control"
+                name="forgot-email"
+                type="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+              />
+            </div>
+            <button class="modal-submit" type="submit">Send Code</button>
+          </form>
+          <div class="modal-footer-copy"><a href="#" @click.prevent="openModal('login')">Back to login</a></div>
+        </div>
+      </section>
+
+      <section
+        v-if="activeModal === 'register'"
+        ref="registerPanelRef"
+        class="modal-panel modal-wide"
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="registerModalTitle"
+      >
+        <div class="modal-header">
+          <h2 id="registerModalTitle">Register</h2>
+          <button class="modal-close" type="button" aria-label="Close login modal" @click="closeModal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-copy">
+            Create your patient account to make future bookings easier and keep your contact
+            details ready for the clinic.
+          </p>
+          <form class="modal-form" @submit.prevent>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" for="registerFirstName">First Name</label>
+                <input
+                  id="registerFirstName"
+                  v-model="registerForm.firstName"
+                  class="field-control"
+                  name="first-name"
+                  type="text"
+                  placeholder="Enter your first name"
+                  autocomplete="given-name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="registerLastName">Last Name</label>
+                <input
+                  id="registerLastName"
+                  v-model="registerForm.lastName"
+                  class="field-control"
+                  name="last-name"
+                  type="text"
+                  placeholder="Enter your last name"
+                  autocomplete="family-name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="registerEmail">Email</label>
+                <input
+                  id="registerEmail"
+                  v-model="registerForm.email"
+                  class="field-control"
+                  name="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="registerPhone">Phone Number</label>
+                <input
+                  id="registerPhone"
+                  v-model="registerForm.phoneNumber"
+                  class="field-control"
+                  name="phone-number"
+                  type="tel"
+                  placeholder="Enter your phone number"
+                  autocomplete="tel"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="registerDob">Date of Birth</label>
+                <input
+                  id="registerDob"
+                  v-model="registerForm.dateOfBirth"
+                  class="field-control"
+                  name="date-of-birth"
+                  type="date"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="registerGender">Gender</label>
+                <select id="registerGender" v-model="registerForm.gender" class="field-control" required>
+                  <option value="">Select gender</option>
+                  <option value="female">Female</option>
+                  <option value="male">Male</option>
+                  <option value="prefer-not-to-say">Prefer not to say</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="registerProvince">Province</label>
+                <select
+                  id="registerProvince"
+                  v-model="registerForm.provinceCode"
+                  class="field-control"
+                  :disabled="provinceLoading || provinceState.disabled"
+                  required
+                  @focus="onProvinceFocus"
+                  @change="handleProvinceChange"
+                >
+                  <option value="">{{ provinceState.placeholder }}</option>
+                  <option v-for="province in provinces" :key="province.code" :value="province.code">
+                    {{ province.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="registerCity">City / Municipality</label>
+                <select
+                  id="registerCity"
+                  v-model="registerForm.cityCode"
+                  class="field-control"
+                  :disabled="cityState.disabled"
+                  required
+                  @change="handleCityChange"
+                >
+                  <option value="">{{ cityState.placeholder }}</option>
+                  <option v-for="city in cities" :key="city.code" :value="city.code">
+                    {{ city.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="registerBarangay">Barangay</label>
+                <select
+                  id="registerBarangay"
+                  v-model="registerForm.barangayCode"
+                  class="field-control"
+                  :disabled="barangayState.disabled"
+                  required
+                >
+                  <option value="">{{ barangayState.placeholder }}</option>
+                  <option v-for="barangay in barangays" :key="barangay.code" :value="barangay.code">
+                    {{ barangay.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="registerPreferredContact">Preferred Contact Method</label>
+                <select
+                  id="registerPreferredContact"
+                  v-model="registerForm.preferredContactMethod"
+                  class="field-control"
+                  required
+                >
+                  <option value="">Choose one for appointment reminders</option>
+                  <option value="sms">SMS</option>
+                  <option value="email">Email</option>
+                  <option value="do-not-contact">Do Not Contact Me</option>
+                </select>
+              </div>
+              <div class="form-group full">
+                <label class="form-label" for="registerPassword">Password</label>
+                <div class="password-field">
+                  <input
+                    id="registerPassword"
+                    v-model="registerForm.password"
+                    class="field-control"
+                    name="register-password"
+                    :type="showRegisterPassword ? 'text' : 'password'"
+                    placeholder="Create a password"
+                    autocomplete="new-password"
+                    required
+                  />
+                  <button
+                    class="password-toggle"
+                    type="button"
+                    aria-controls="registerPassword"
+                    :aria-label="showRegisterPassword ? 'Hide password' : 'Show password'"
+                    :aria-pressed="showRegisterPassword"
+                    @click="showRegisterPassword = !showRegisterPassword"
+                  >
+                    {{ showRegisterPassword ? 'Hide' : 'Show' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <p class="address-feedback">{{ addressFeedback }}</p>
+            <button class="modal-submit" type="submit">Create Account</button>
+          </form>
+          <div class="modal-footer-copy">
+            Already have an account? <a href="#" @click.prevent="openModal('login')">Login</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .modal-panel {

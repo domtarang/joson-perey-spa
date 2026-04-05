@@ -1,3 +1,9 @@
+<script setup lang="ts">
+defineEmits<{
+  (event: 'open-modal', modal: 'login' | 'register' | 'forgot'): void
+}>()
+</script>
+
 <template>
   <section id="home" class="hero">
     <div class="hero-inner">
@@ -17,12 +23,6 @@
     </div>
   </section>
 </template>
-
-<script setup lang="ts">
-defineEmits<{
-  (event: 'open-modal', modal: 'login' | 'register' | 'forgot'): void
-}>()
-</script>
 
 <style scoped>
 .hero {

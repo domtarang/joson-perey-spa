@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import logo from '@/assets/logo.png'
+
+defineEmits<{
+  (event: 'open-modal', modal: 'login' | 'register' | 'forgot'): void
+}>()
+</script>
+
 <template>
   <header class="site-header">
     <div class="container nav">
@@ -19,14 +27,6 @@
     </div>
   </header>
 </template>
-
-<script setup lang="ts">
-import logo from '@/assets/logo.png'
-
-defineEmits<{
-  (event: 'open-modal', modal: 'login' | 'register' | 'forgot'): void
-}>()
-</script>
 
 <style scoped>
 .nav-links {

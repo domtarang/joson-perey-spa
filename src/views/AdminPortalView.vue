@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import HeaderSection from '@/components/admin/portal/HeaderSection.vue'
+import PortalSection from '@/components/admin/portal/PortalSection.vue'
+import FooterSection from '@/components/admin/portal/FooterSection.vue'
+</script>
+
 <template>
   <div class="admin-page">
     <div class="top-strip admin-top-strip">Admin Portal | Authorized Personnel Only</div>
@@ -6,12 +12,6 @@
     <FooterSection />
   </div>
 </template>
-
-<script setup lang="ts">
-import HeaderSection from '@/components/admin/portal/HeaderSection.vue'
-import PortalSection from '@/components/admin/portal/PortalSection.vue'
-import FooterSection from '@/components/admin/portal/FooterSection.vue'
-</script>
 
 <style scoped>
 .admin-page {

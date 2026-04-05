@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import logo from '@/assets/logo.png'
+</script>
+
 <template>
   <header class="site-header">
     <div class="container nav">
@@ -12,10 +16,6 @@
     </div>
   </header>
 </template>
-
-<script setup lang="ts">
-import logo from '@/assets/logo.png'
-</script>
 
 <style scoped>
 .nav-actions {

@@ -1,3 +1,66 @@
+<script setup lang="ts">
+import { nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
+
+const showPassword = ref(false)
+const isForgotModalOpen = ref(false)
+const forgotPanelRef = ref<HTMLElement | null>(null)
+const resetEmail = ref('')
+const loginStatus = ref('')
+const resetStatus = ref('')
+
+const loginForm = reactive({
+  email: '',
+  password: '',
+  rememberMe: false,
+})
+
+const handleLoginSubmit = () => {
+  loginStatus.value = 'Frontend ready. Connect this form to your admin authentication endpoint.'
+}
+
+const openForgotModal = async () => {
+  isForgotModalOpen.value = true
+  resetStatus.value = ''
+  await nextTick()
+  forgotPanelRef.value?.querySelector<HTMLElement>('#resetEmail')?.focus()
+}
+
+const closeForgotModal = () => {
+  isForgotModalOpen.value = false
+  resetStatus.value = ''
+}
+
+const handleResetSubmit = () => {
+  resetStatus.value = ''
+
+  if (!resetEmail.value.trim()) {
+    resetStatus.value = 'Please enter the registered admin email.'
+    return
+  }
+
+  resetStatus.value = `Reset code request captured for ${resetEmail.value.trim()}.`
+}
+
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === 'Escape' && isForgotModalOpen.value) {
+    closeForgotModal()
+  }
+}
+
+watch(isForgotModalOpen, (isOpen) => {
+  document.body.classList.toggle('modal-open', isOpen)
+})
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', handleKeydown)
+  document.body.classList.remove('modal-open')
+})
+</script>
+
 <template>
   <main class="admin-shell">
     <div class="container admin-layout">
@@ -146,69 +209,6 @@
     </div>
   </main>
 </template>
-
-<script setup lang="ts">
-import { nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
-
-const showPassword = ref(false)
-const isForgotModalOpen = ref(false)
-const forgotPanelRef = ref<HTMLElement | null>(null)
-const resetEmail = ref('')
-const loginStatus = ref('')
-const resetStatus = ref('')
-
-const loginForm = reactive({
-  email: '',
-  password: '',
-  rememberMe: false,
-})
-
-const handleLoginSubmit = () => {
-  loginStatus.value = 'Frontend ready. Connect this form to your admin authentication endpoint.'
-}
-
-const openForgotModal = async () => {
-  isForgotModalOpen.value = true
-  resetStatus.value = ''
-  await nextTick()
-  forgotPanelRef.value?.querySelector<HTMLElement>('#resetEmail')?.focus()
-}
-
-const closeForgotModal = () => {
-  isForgotModalOpen.value = false
-  resetStatus.value = ''
-}
-
-const handleResetSubmit = () => {
-  resetStatus.value = ''
-
-  if (!resetEmail.value.trim()) {
-    resetStatus.value = 'Please enter the registered admin email.'
-    return
-  }
-
-  resetStatus.value = `Reset code request captured for ${resetEmail.value.trim()}.`
-}
-
-const handleKeydown = (event: KeyboardEvent) => {
-  if (event.key === 'Escape' && isForgotModalOpen.value) {
-    closeForgotModal()
-  }
-}
-
-watch(isForgotModalOpen, (isOpen) => {
-  document.body.classList.toggle('modal-open', isOpen)
-})
-
-onMounted(() => {
-  document.addEventListener('keydown', handleKeydown)
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener('keydown', handleKeydown)
-  document.body.classList.remove('modal-open')
-})
-</script>
 
 <style scoped>
 .admin-shell {
